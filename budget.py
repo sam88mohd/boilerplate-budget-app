@@ -30,6 +30,7 @@ class Category:
             self.amount -= amount
 
             category.deposit(amount, f"Transfer from {self.category}")
+            category.amount += amount
             return True
         return False
 
@@ -45,7 +46,7 @@ class Category:
         result += self.category.center(max_length, '*') + '\n'
         for row in self.ledger:
             result += row["description"][:description_length] + \
-                str(row["amount"]).rjust(
+                "{:,.2f}".format(row["amount"]).rjust(
                     max_length - len(row["description"])) + "\n"
         result += f"Total: {self.amount}"
         return result
@@ -56,5 +57,5 @@ def create_spend_chart(categories):
     result = ""
     result += "Percentage spent by category \n"
     for row in range(100, -10, -10):
-        result += str(row).rjust(3) + "|" + "\n"
+        result += str(row).rjust(3) + "|"
     return result
